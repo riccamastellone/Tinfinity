@@ -15,6 +15,7 @@ router.use(function (req, res, next) {
 	//db.users.insert({ "name" : "Riccardo", "surname" : "Mastellone", "email" : "riccardo.mastellone@gmail.com", "token" : "thisisatoken" })
 	//db.users.insert({ "name" : "Giovanni", "surname" : "Palazzo", "email" : "giovanni.palazzo@gmail.com", "token" : "thisisatoken" , "latitude" : "45.484083899999995", "longitude" : "9.209376899999999"})
   	var token = req.get('X-Api-Token');
+	
 	users.findOne({ 'token' : token }, function(err, doc){
 		if(doc !== null && err == null) {
 			console.log('Authorized');
