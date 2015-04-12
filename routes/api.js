@@ -13,7 +13,7 @@ router.use(function (req, res, next) {
   	var users = db.get('users');
 
 	//db.users.insert({ "name" : "Riccardo", "surname" : "Mastellone", "email" : "riccardo.mastellone@gmail.com", "token" : "thisisatoken" })
-
+	//db.users.insert({ "name" : "Giovanni", "surname" : "Palazzo", "email" : "giovanni.palazzo@gmail.com", "token" : "thisisatoken" , "latitude" : "45.484083899999995", "longitude" : "9.209376899999999"})
   	var token = req.get('X-Api-Token');
 	users.findOne({ 'token' : token }, function(err, doc){
 		if(doc !== null && err == null) {
@@ -21,7 +21,7 @@ router.use(function (req, res, next) {
 			console.log(doc);
 
 			User = doc;
-			
+
 			// Ottimo, passiamo alla prossima richiesta
 			next();
 		} else {
@@ -34,7 +34,6 @@ router.use(function (req, res, next) {
 
 var users = require('./users');
 router.use('/users', users);
-
 
 
 module.exports = router;

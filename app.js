@@ -16,7 +16,6 @@ app.use(function(req,res,next){
     next();
 });
 
-var api = require('./routes/api');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,6 +33,7 @@ app.get('/', function(req, res, next) {
   res.render('index', { title: 'Tinfinity' });
 });
 
+var api = require('./routes/api');
 app.use('/api', api);
 
 // catch 404 and forward to error handler
