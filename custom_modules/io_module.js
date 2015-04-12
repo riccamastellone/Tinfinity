@@ -14,6 +14,8 @@ module.exports = function (io) {
       //message passed
       socket.on('chat message', function(msg){
         console.log('message: ' + msg);
+        //reply to client
+        io.emit('chat message', msg);
       });
 
 
