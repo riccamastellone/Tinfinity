@@ -2,18 +2,39 @@ var express = require('express');
 var router = express.Router();
 
 
+// Utilizziamo questo Middleware
+// per autenticare tutte le richieste
+router.use(function (req, res, next) {
+
+	// Header che serve in tutte le richieste
+	res.setHeader('Content-Type', 'application/json');
+
+	var db = req.db;
+  	var users = db.get('users');
+
+	//db.users.insert({ "name" : "Riccardo", "surname" : "Mastellone", "email" : "riccardo.mastellone@gmail.com", "token" : "thisisatoken" })
+
+  	var token = req.get('X-Api-Token');
+	users.findOne({ 'token' : token }, function(err, doc){
+		if(doc !== null && err == null) {
+			console.log('Authorized');
+			console.log(doc);
+
+			User = doc;
+			
+			// Ottimo, passiamo alla prossima richiesta
+			next();
+		} else {
+			console.log('Not authorized');
+			res.status(403).json({'error' : 'Not authorized'});
+		}
+	});
+  	
+});
+
 var users = require('./users');
 router.use('/users', users);
 
-router.post('/ping',function(req, res, next) {
-  	/*
-  	-> 
-	location
-
-	<- 
-	ok
-	*/
-})
 
 
 module.exports = router;
