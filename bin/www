@@ -8,3 +8,8 @@ var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);
   console.log('Express server listening on port ' + server.address().port)
 });
+
+//get the reference to our module and bind to the listen port
+var io = require('socket.io').listen(server);
+//require the  exported module
+require('../custom_modules/io_module.js')(io);
