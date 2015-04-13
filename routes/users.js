@@ -1,3 +1,4 @@
+var custom = require('../modules/custom');
 var express = require('express');
 var router = express.Router();
 
@@ -5,9 +6,9 @@ var router = express.Router();
 
 /* Users listing */
 router.post('/', function(req, res, next) {
-  	var db = req.db;
+  var db = req.db;
 	var users = db.get('users');
-  	var geolib = require('geolib');
+  var geolib = require('geolib');
 
   var position = { latitude: req.body.lat , longitude: req.body.lon};
 
@@ -23,7 +24,16 @@ router.post('/', function(req, res, next) {
   // alle relazioni
   users.find({}, function (err, docs){
   	var nearest = geolib.findNearest(position, docs, 1, 20);
-  	res.json(nearest);
+  	nearest.forEach(function(entry){
+        res.json({ 
+        	user : custom.filterUser(docs[entry.key]), 
+        	distance : entry.distance,
+        	position : {
+        		latitude : entry.latitude,
+        		longitude : entry.longitude
+        	}
+        });
+    }); 
   });
 
 });
@@ -35,38 +45,12 @@ router.post('/', function(req, res, next) {
  * returns { .. }
  */
 router.get('/:id', function (req, res, next) {
-	var db = req.db;
+  var db = req.db;
 	var users = db.get('users');
-  var moment = require('moment');
-
-  users.find({ _id : req.params.id }, function(err, doc){  
-
-  	if(doc === null) {
-  		res.json({ error : "User does not exist"});
-  		return;
-  	}    
-
-  	// Dati pubblici
-  	data = {
-		 	_id : doc._id, 
-			name : doc.name, 
-			surname : doc.surname.charAt(0) + ".", 
-			gender : doc.gender,
-			relationship : null 
-		};
-
-	// Relazione accettata, aggiungiamo informazioni
-    if(User.relationships[req.params.id] === 'accepted') {
-    	data.surname = doc.surname;
-    	data.image = doc.image;
-    	data.relationship = "accepted";
-    	data.age = moment().diff(doc.birthdate, 'years');
-	} 
-
-	res.json(data);
-	
+  
+  users.find({ _id : id }, function(err, doc){  
+  	res.json(custom.filterUser(doc));
   });
-
 });
 
 
