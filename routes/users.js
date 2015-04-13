@@ -48,7 +48,7 @@ router.get('/:id', function (req, res, next) {
   var db = req.db;
 	var users = db.get('users');
   
-  users.find({ _id : id }, function(err, doc){  
+  users.findOne({ _id : req.params.id }, function(err, doc){  
   	res.json(custom.filterUser(doc));
   });
 });
@@ -63,9 +63,20 @@ router.get('/:id', function (req, res, next) {
 router.get('/:id/add', function (req, res, next) {
 	var db = req.db;
 	var users = db.get('users');
-	if( typeof User.relationships[req.params.id] === 'undefined') {
-		users.updateById(User._id, { $set : {relationships : { 'ciao' : 'requested' }}}, function (err, doc) {
+
+  if(User.hasOwnProperty('relationships') === false) {
+    users.updateById(User._id, { $set : {relationships : {}}}, function (err, doc) {
+        if (err) throw err;
+    });
+  }
+
+  if(typeof User.relationships[req.params.id] === 'undefined') {
+    relationship = {}
+    relationship[req.params.id] = 'requested';
+    console.log(relationship);
+		users.updateById(User._id, { $set : {relationships : relationship}}, function (err, doc) {
 			  if (err) throw err;
+        res.json({ relationship : 'requested'});
 		});
 	} else {
 		res.json({ relationship : User.relationships[req.params.id]});

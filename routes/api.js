@@ -19,8 +19,6 @@ router.use(function (req, res, next) {
 	users.findOne({ 'token' : token }, function(err, doc){
 		if(doc !== null && err == null) {
 			console.log('Authorized');
-			console.log(doc);
-
 			User = doc;
 
 			// Ottimo, passiamo alla prossima richiesta
