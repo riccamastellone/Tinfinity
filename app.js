@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var debug = require('./routes/debug');
 
 var app = express();
 
@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/debug', debug);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -55,5 +55,17 @@ app.use(function(err, req, res, next) {
     });
 });
 
+
+//connection to mongodb and related options
+
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/tinfinity', function(err) {
+    if(err) {
+        console.log('connection error', err);
+    } else {
+        console.log('connection to mongodb successful');
+    }
+});
 
 module.exports = app;
