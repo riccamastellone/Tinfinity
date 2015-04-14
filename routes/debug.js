@@ -14,7 +14,7 @@ router.get('/find', function(req, res) {
 });
 
 router.get('/create', function(req, res) {
-  mongoWrapper.create(messageSample, function(value){ res.json(value) } )
+  mongoWrapper.create(messageSample, "ciao come va3?", function(value){ res.json(value) } )
 });
 
 module.exports = router;

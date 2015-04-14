@@ -4,19 +4,20 @@ module.exports = {
 
     /*---------------------- Mongo common methods ----------------------*/
 
+        //find all the elements of a given model
         find : function(model, callback){
 
             model.find(function (err, results) {
                 if (err) return next(err);
-                console.log(results)
                 callback(results)
             });
 
         },
 
-        create : function(model, callback){
+        //create an element of a given model
+        create : function(model, params, callback){
 
-            model.create({message : "ciao come va3?"}, function (err, created) {
+            model.create({message : params}, function (err, created) {
                 if (err) return next(err);
                callback(created)
             });
