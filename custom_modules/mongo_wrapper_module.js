@@ -17,7 +17,7 @@ module.exports = {
         //create an element of a given model
         create : function(model, params, callback){
 
-            model.create({message : params}, function (err, created) {
+            model.create(params, function (err, created) {
                 if (err) return next(err);
                callback(created)
             });
