@@ -12,7 +12,7 @@ module.exports = function (io) {
       console.log('a user connected');
 
       //message passed
-      socket.on('chat message', function(msg){
+      socket.on('message', function(msg){
         console.log('message: ' + msg);
         //reply to client
         io.emit('chat message', msg);
