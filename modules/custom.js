@@ -15,7 +15,7 @@ exports.filterUser = function(doc) {
   	data = {
 		 	_id : doc._id, 
 			name : doc.name, 
-			surname : doc.surname,//.charAt(0) + ".", 
+			surname : doc.surname.charAt(0) + ".", 
 			gender : doc.gender,
 			relationship : null 
 		};

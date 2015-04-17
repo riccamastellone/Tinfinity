@@ -3,6 +3,19 @@ var express = require('express');
 var router = express.Router();
 
 
+/**
+ * /api/users/me
+ * Recupero le informazioni relative a me stesso
+ * returns { .. }
+ */
+router.get('/me', function (req, res, next) {
+  var db = req.db;
+  var users = db.get('users');
+  
+  users.findOne({ _id : User._id }, function(err, doc){  
+    res.json(doc);
+  });
+});
 
 /* Users listing */
 router.post('/', function(req, res, next) {
@@ -67,6 +80,8 @@ router.get('/:id/add', function (req, res, next) {
   if(User.hasOwnProperty('relationships') === false) {
     users.updateById(User._id, { $set : {relationships : {}}}, function (err, doc) {
         if (err) throw err;
+        // Bisogna usare la promise, altrimenti non fa in tempo ad aggiungere
+        // il campo che il codice dopo prova ad accederci
     });
   }
 
@@ -84,6 +99,3 @@ router.get('/:id/add', function (req, res, next) {
 });
 
 module.exports = router;
-
-
-
