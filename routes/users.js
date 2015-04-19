@@ -1,4 +1,4 @@
-var custom = require('../modules/custom');
+var custom = require('../custom_modules/custom');
 var express = require('express');
 var router = express.Router();
 
@@ -11,8 +11,8 @@ var router = express.Router();
 router.get('/me', function (req, res, next) {
   var db = req.db;
   var users = db.get('users');
-  
-  users.findOne({ _id : User._id }, function(err, doc){  
+
+  users.findOne({ _id : User._id }, function(err, doc){
     res.json(doc);
   });
 });
@@ -38,30 +38,30 @@ router.post('/', function(req, res, next) {
   users.find({}, function (err, docs){
   	var nearest = geolib.findNearest(position, docs, 1, 20);
   	nearest.forEach(function(entry){
-        res.json({ 
-        	user : custom.filterUser(docs[entry.key]), 
+        res.json({
+        	user : custom.filterUser(docs[entry.key]),
         	distance : entry.distance,
         	position : {
         		latitude : entry.latitude,
         		longitude : entry.longitude
         	}
         });
-    }); 
+    });
   });
 
 });
 
 /**
  * /api/users/{id}
- * Recupero le informazioni relative ad un altro utente in 
+ * Recupero le informazioni relative ad un altro utente in
  * base alla relazione presente fra i due
  * returns { .. }
  */
 router.get('/:id', function (req, res, next) {
   var db = req.db;
 	var users = db.get('users');
-  
-  users.findOne({ _id : req.params.id }, function(err, doc){  
+
+  users.findOne({ _id : req.params.id }, function(err, doc){
   	res.json(custom.filterUser(doc));
   });
 });

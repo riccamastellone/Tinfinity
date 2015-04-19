@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-var mongoWrapper = require('../custom_modules/mongo_wrapper_module.js')
-var messageSample = require('../database/models/message_sample.js');
+//CAPIRE DOVE METTERLE PER FARE UNA COSA FATTA BENE
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/tinfinity');
+var messageSample = db.get('messagesample')
 
 /* GET users listing. */
 router.get('/', function(req, res) {
@@ -10,11 +13,20 @@ router.get('/', function(req, res) {
 });
 
 router.get('/find', function(req, res) {
-  mongoWrapper.find(messageSample, function(value){ res.json(value) } )
+
+  messageSample.find({}, function (err, results) {
+                if (err) return next(err);
+                res.json(results)
+    } )
+
 });
 
 router.get('/create', function(req, res) {
-  mongoWrapper.create(messageSample, "ciao come va3?", function(value){ res.json(value) } )
+  //mongoWrapper.create(messageSample, "ciao come va3?", function(value){ res.json(value) } )
+  messageSample.insert({ message : "ciao come va?"}, function (err, results) {
+                if (err) return next(err);
+                res.json(results)
+    } )
 });
 
 module.exports = router;
