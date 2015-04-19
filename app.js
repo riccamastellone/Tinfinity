@@ -5,14 +5,25 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/tinfinity');
+
+var routes = require('./routes/index');
+var debug = require('./routes/debug');
+
+//connection to mongodb and related options
+
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/tinfinity', function(err) {
+    if(err) {
+        console.log('connection error', err);
+    } else {
+        console.log('connection to mongodb successful');
+    }
+});
 
 var app = express();
 
 app.use(function(req,res,next){
-    req.db = db;
     next();
 });
 
@@ -35,6 +46,8 @@ app.get('/', function(req, res, next) {
 
 var api = require('./routes/api');
 app.use('/api', api);
+app.use('/', routes);
+app.use('/debug', debug);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
