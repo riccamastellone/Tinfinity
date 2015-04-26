@@ -38,11 +38,15 @@ app.get('/', function(req, res, next) {
   res.render('index', { title: 'Tinfinity' });
 });
 
+var auth = require('./routes/auth');
+app.use('/api/auth', auth);
 // All'interno di api.js vengono gestite *tutte*
 // le chiamate da parte del cliente *tranne*
 // quelle per l'autenticazione
 var api = require('./routes/api');
 app.use('/api', api);
+
+
 
 var debug = require('./routes/debug');
 app.use('/debug', debug);
