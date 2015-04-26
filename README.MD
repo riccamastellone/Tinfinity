@@ -40,6 +40,27 @@ db.users.insert({ "name" : "Giovanni", "surname" : "Palazzo", "email" : "giovann
 # API #
 To make any request, you need to be autheticated. You may do this adding the `X-Api-Auth` header in the request with the associated token.
 
+### Authentication 
+Just send the Facebook access token and it will return all the information about the Tinfinity user
+```
+POST /api/auth/fb
+token=.....
+```
+Example response
+```
+{
+    "_id": "553d67e6e76c4761ccb25077",
+    "facebook_id": "10154184687275109",
+    "name": "Riccardo",
+    "surname": "Mastellone",
+    "gender": "male",
+    "token": "1dd45c7cedf1460bf218cdb206982ec8d6b70e11fdd60193ad27356e40069f5c",
+    "image": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p200x200/10351916_10154591446635109_1356913014075742012_n.jpg",
+    "updated_at": 1430087797216,
+    "created_at": 1430087654568
+}
+```
+
 ### Users
 
 #### Retrive info about myself
