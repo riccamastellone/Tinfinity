@@ -4,7 +4,7 @@ exports.filterUser = function(doc) {
   		return { error : "User does not exist"};
   	}    
     /* 
-    Vogliamo gestire anche questo caso?
+    Vogliamo gestire anche il caso in cui sia un array?
     Meglio di no, teniamo pulito dall'altra parte usando users.findOne
     if(doc.isArray === true) {
       doc = doc[0];

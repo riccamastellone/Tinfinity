@@ -8,7 +8,6 @@ var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/tinfinity');
-
 var app = express();
 
 app.use(function(req,res,next){
@@ -39,6 +38,8 @@ app.get('/', function(req, res, next) {
   res.render('index', { title: 'Tinfinity' });
 });
 
+// All'interno di api.js vengono gestite *tutte*
+// le chiamate da parte del cliente
 var api = require('./routes/api');
 app.use('/api', api);
 

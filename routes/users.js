@@ -17,7 +17,11 @@ router.get('/me', function (req, res, next) {
   });
 });
 
-/* Users listing */
+/**
+ * /api/users
+ * Recupero la lista degli utenti piu vicini a me
+ * returns { .. }
+ */
 router.post('/', function(req, res, next) {
   var db = req.db;
 	var users = db.get('users');
