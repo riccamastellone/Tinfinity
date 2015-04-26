@@ -39,12 +39,10 @@ app.get('/', function(req, res, next) {
 });
 
 // All'interno di api.js vengono gestite *tutte*
-// le chiamate da parte del cliente
+// le chiamate da parte del cliente *tranne*
+// quelle per l'autenticazione
 var api = require('./routes/api');
 app.use('/api', api);
-
-var routes = require('./routes/index');
-app.use('/', routes);
 
 var debug = require('./routes/debug');
 app.use('/debug', debug);
