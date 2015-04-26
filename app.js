@@ -5,10 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-
-var routes = require('./routes/index');
-var debug = require('./routes/debug');
-
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/tinfinity');
@@ -17,6 +13,11 @@ var app = express();
 
 app.use(function(req,res,next){
     //penso che non vada bene qui questo
+
+    // Utilizzo questo sistema per passarmi la variabile db 
+    // attraverso tutta l'applicazione. Ci sono anche altri
+    // modi, come l'export. Se preferisci cambialo.
+    // http://stackoverflow.com/a/15039178/1274546
     req.db = db
     next();
 });
@@ -40,7 +41,11 @@ app.get('/', function(req, res, next) {
 
 var api = require('./routes/api');
 app.use('/api', api);
+
+var routes = require('./routes/index');
 app.use('/', routes);
+
+var debug = require('./routes/debug');
 app.use('/debug', debug);
 
 // catch 404 and forward to error handler
