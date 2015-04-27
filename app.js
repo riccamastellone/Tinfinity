@@ -58,6 +58,10 @@ app.use(function(req, res, next) {
   next(err);
 });
 
+app.get('/', function (req, res, next) {
+  res.send('This is Tinfinity server.');
+});
+
 
 // development error handler
 // will print stacktrace
