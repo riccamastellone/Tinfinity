@@ -34,8 +34,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', function(req, res, next) {
-  res.render('index', { title: 'Tinfinity' });
+app.get('/', function (req, res, next) {
+  res.send('This is Tinfinity server.');
 });
 
 var auth = require('./routes/auth');
@@ -57,11 +57,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
-app.get('/', function (req, res, next) {
-  res.send('This is Tinfinity server.');
-});
-
 
 // development error handler
 // will print stacktrace
