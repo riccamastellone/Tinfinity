@@ -4,7 +4,7 @@ var app = express();
 var io = require('socket.io').listen(app.listen());
 
 // Demo data
-// db.chat.insert({"user1" : "5530d2eb218629bd9fac825a", "user2" : "5530d2ec218629bd9fac825b", "data" : {"user1" : {"553cede16cfae4e7b96762a0" : ["MEss utente 1","1430056736956"],"553cede16cfae4e7b96762aa" : ["Altro mess utente2","1430056736960"]},"user2" : {"553cede16cfae4e7b96762f0" : ["Ciao questo è un messaggio","1430056736856"],"553cede16cfae4e7b96762fa" : ["Ciao questo è un secndo messaggio","1430056736959"]}}})
+// db.chat.insert({"user1" : "553d67e6e76c4761ccb25077", "user2" : "5530d2ec218629bd9fac825b", "data" : {"user1" : {"553cede16cfae4e7b96762a0" : ["MEss utente 1","1430056736956"],"553cede16cfae4e7b96762aa" : ["Altro mess utente2","1430056736960"]},"user2" : {"553cede16cfae4e7b96762f0" : ["Ciao questo è un messaggio","1430056736856"],"553cede16cfae4e7b96762fa" : ["Ciao questo è un secndo messaggio","1430056736959"]}}})
 
 /**
  * /api/chat
