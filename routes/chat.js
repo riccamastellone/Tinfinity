@@ -20,7 +20,7 @@ router.get('/', function (req, res, next) {
   chat.find({ $or: [ 
   	{'user1': User._id.toString() },
   	{'user2': User._id.toString() },
-  	]}).sort({lastModifiedDate:-1}, function(err, doc){
+  	]}, function(err, doc){
     	res.json(doc);
   });
 });
