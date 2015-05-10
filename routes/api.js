@@ -33,7 +33,7 @@ router.use(function (req, res, next) {
 			// Ottimo, passiamo alla prossima richiesta
 			next();
 		} else {
-			console.log('Not authorized');
+			console.log('Not authorized with token ' + token);
 			res.status(403).json({'error' : 'Not authorized'});
 		}
 	});
