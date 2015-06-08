@@ -38,7 +38,7 @@ db.users.insert({ "name" : "Riccardo", "surname" : "Mastellone", "email" : "ricc
 db.users.insert({ "name" : "Giovanni", "surname" : "Palazzo", "email" : "giovanni.palazzo@gmail.com", "token" : "thisisanothertoken" , "latitude" : "45.484083899999995", "longitude" : "9.209376899999999"})
 ```
 # API #
-To make any request, you need to be autheticated. You may do this adding the `X-Api-Auth` header in the request with the associated token.
+To make any request, you need to be autheticated. You may do this adding the `X-Api-Token` header in the request with the associated token.
 
 ### Authentication 
 Just send the Facebook access token and it will return all the information about the Tinfinity user
