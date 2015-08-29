@@ -20,8 +20,8 @@ router.get('/', function (req, res, next) {
   chat.col.aggregate([
     { $match: {
       $or:[
-      {'user1': User._id.toString() },
-      {'user2': User._id.toString() }
+        {'user1': User._id.toString() },
+        {'user2': User._id.toString() }
       ]
     }},
     { $unwind: '$data.user1' },
@@ -33,17 +33,9 @@ router.get('/', function (req, res, next) {
         user2: { $addToSet:  "$data.user2" }
     }}
   ],function(err,doc){
-    res.json(doc)
-  }
+      res.json(doc)
+    }
   );
-
-  /* OLD QUERY
-  chat.find({ $or: [ 
-  	,
-  	]}, function(err, doc){
-    	res.json(doc);
-  });
-  */
 });
 
 /**
