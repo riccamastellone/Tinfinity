@@ -147,6 +147,7 @@ Example response
 ```
 {
     "_id": {
+        "_id":  "5530d2eb218629bd9fac825a",
         "user1": "5530d2eb218629bd9fac825a",
         "user2": "5530d2ec218629bd9fac825b"
     },

@@ -28,7 +28,7 @@ router.get('/', function (req, res, next) {
     { $unwind: '$data.user2' },
 
     { "$group": {
-        _id: { user1: "$user1", user2: "$user2" },
+        _id: { _id: "$_id", user1: "$user1", user2: "$user2" },
         user1: { $addToSet:  "$data.user1" },
         user2: { $addToSet:  "$data.user2" }
     }}
@@ -60,7 +60,7 @@ router.get('/:id', function (req, res, next) {
     { $unwind: '$data.user1' },
     { $unwind: '$data.user2' },
     { "$group": {
-        _id: { user1: "$user1", user2: "$user2" },
+        _id: { _id: "$_id", user1: "$user1", user2: "$user2" },
         user1: { $addToSet:  "$data.user1" },
         user2: { $addToSet:  "$data.user2" }
     }}
@@ -102,7 +102,7 @@ router.get('/:id/:timestamp', function (req, res, next) {
     },
 
     { "$group": {
-        _id: { user1: "$user1", user2: "$user2" },
+        _id: { _id: "$_id", user1: "$user1", user2: "$user2" },
         user1: { $addToSet:  "$data.user1" },
         user2: { $addToSet:  "$data.user2" }
     }}

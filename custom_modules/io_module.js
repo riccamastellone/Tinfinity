@@ -53,6 +53,7 @@ module.exports = function (io) {
                       "user1" : [ 
                         message
                       ],
+                      "user2" : [ ]
                     }
                   });
                 } 
