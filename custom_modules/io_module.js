@@ -38,7 +38,7 @@ module.exports = function (io) {
                 // id : [ messaggio, timestamp ]
                 var message_id = (chat.id()).toString();
                 var message = {};
-                message[message_id] = [ data.message, timestamp ];
+                message = [ message_id, data.message, timestamp ];
 
                 // Il documento non esiste, creiamolo
                 if(err || doc === null) {
@@ -46,7 +46,9 @@ module.exports = function (io) {
                     "user1" : data.user1,
                     "user2" : data.user2, 
                     "data" : {
-                      "user1" : [ message ],
+                      "user1" : [ 
+                        message
+                      ],
                     }
                   });
                 } 
