@@ -35,15 +35,23 @@ router.get('/:id', function (req, res, next) {
   var db = req.db;
   var chat = db.get('chat');
 
+
   // Non abbiamo la certezza di chi sia utente1 e utente2,
   // quindi cerchiamo entrambe le combinazioni
   chat.findOne({ $or: [ 
     {'user1': User._id.toString() , 'user2': req.params.id },
     {'user2': User._id.toString() , 'user1': req.params.id },
     ]}, function(err, doc){
-      res.json(doc);
+      if(doc !== null) {
+        res.json(doc);
+      } else {
+        res.json(false);
+      }
   });
+
+
 });
+
 
 
 /**
@@ -52,25 +60,30 @@ router.get('/:id', function (req, res, next) {
  * da un determinato timestamp {timestamp }con l'utente {id}
  * returns { .. }
  */
+ 
 router.get('/:id/:timestamp', function (req, res, next) {
   var db = req.db;
   var chat = db.get('chat');
 
-  // Non abbiamo la certezza di chi sia utente1 e utente2,
-  // quindi cerchiamo entrambe le combinazioni
-  obj.data.user1[0][Object.keys(obj.data.user1[0])[0]][1]
-  chat.findOne(
-    $and : [
-        { $or : [ 
-          {'user1': User._id.toString() , 'user2': req.params.id },
-          {'user2': User._id.toString() , 'user1': req.params.id },
-        ]},
-        { data.user1.: { $gte: 20 } }
-    ]
-    { $or: }, function(err, doc){
-      res.json(doc);
+
+  // NON DEL TUTTO CORRETTA -> UNISCE I RISULTATI SENZA POI RISEPARARLI
+  chat.col.aggregate([
+    { $unwind: '$data.user1' }, 
+    { $unwind: '$data.user2' },
+    { $match: { 'data.user1.timestamp' : { $gte: parseInt(req.params.timestamp) } } },
+    { $match: { 'data.user2.timestamp' : { $gte: parseInt(req.params.timestamp) } } },
+    { $match: { $or: [ 
+      {'user1': User._id.toString() , 'user2': req.params.id }, 
+      {'user2': User._id.toString() , 'user1': req.params.id }
+    ]}}
+  ],function(err,doc){
+    res.json(doc)
   });
+
+
 });
+
+
 module.exports = router;
 
 

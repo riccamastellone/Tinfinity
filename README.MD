@@ -138,6 +138,10 @@ Example response
 #### Retrive conversation history
 ```
 GET /api/chat/{id}
+
+#### Retrive conversation history starting from a precise point in time
+```
+GET /api/chat/{id}/{timestamp}
 ```
 Example response
 ```
@@ -147,37 +151,36 @@ Example response
     "user2": "5530d2ec218629bd9fac825b",
     "data": {
         "user1": [
-            [
-                "553d001b0d840383ba1002c8"
-                "messaggio1",
-                1430061083351
-            ],
-            [
-                "553d001d0d840383ba1002ca"
-                "messaggio2",
-                1430061085214
-            ],
-            [
-                "553d0279c93f1a29bd78ae8f"
-                "ciao",
-                1430061689521
-            ]
+            {
+                "_id": "553d001b0d840383ba1002c8",
+                "message": "messaggio1",
+                "timestamp": 1430061083351
+            },{
+                "_id": "553d001d0d840383ba1002ca",
+                "message": "messaggio2",
+                "timestamp": 1430061085214
+            },{
+                "_id": "553d0279c93f1a29bd78ae8f",
+                "message": "ciao",
+                "timestamp": 1430061689521
+            }
         ],
         "user2": [
-            [
-                "553d010077739d88bb8fff1d",
-                "bella zio",
-                1430061312797
-            ],
-            [
-                "553d02be5e48e475bd7fe2d1"
-                "ciao",
-                1430061758347
-            ]
+            {
+                "_id": "553d010077739d88bb8fff1d",
+                "message": "bella zio",
+                "timestamp": 1430061312797
+            },{
+                "_id": "553d02be5e48e475bd7fe2d1",
+                "message": "ciao",
+                "timestamp": 1430061758347
+            }
         ]
     }
 }
 ```
+
+If the conversation does not exists, the response will be `false`
 
 #### Real-time Websocket Chat
 You may listen to your Socket.io channel `message-{id}`, where `{id}` is your user id.
