@@ -35,7 +35,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function (req, res, next) {
-  res.send('This is Tinfinity server.');
+  res.render('index');
+  //res.send('This is Tinfinity server.');
 });
 
 var auth = require('./routes/auth');
