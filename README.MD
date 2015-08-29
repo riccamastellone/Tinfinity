@@ -146,37 +146,36 @@ GET /api/chat/{id}/{timestamp}
 Example response
 ```
 {
-    "_id": "553d001b0d840383ba1002c9",
-    "user1": "5530d2eb218629bd9fac825a",
-    "user2": "5530d2ec218629bd9fac825b",
-    "data": {
-        "user1": [
-            {
-                "_id": "553d001b0d840383ba1002c8",
-                "message": "messaggio1",
-                "timestamp": 1430061083351
-            },{
-                "_id": "553d001d0d840383ba1002ca",
-                "message": "messaggio2",
-                "timestamp": 1430061085214
-            },{
-                "_id": "553d0279c93f1a29bd78ae8f",
-                "message": "ciao",
-                "timestamp": 1430061689521
-            }
-        ],
-        "user2": [
-            {
-                "_id": "553d010077739d88bb8fff1d",
-                "message": "bella zio",
-                "timestamp": 1430061312797
-            },{
-                "_id": "553d02be5e48e475bd7fe2d1",
-                "message": "ciao",
-                "timestamp": 1430061758347
-            }
-        ]
-    }
+    "_id": {
+        "user1": "5530d2eb218629bd9fac825a",
+        "user2": "5530d2ec218629bd9fac825b"
+    },
+    "user1": [
+        {
+            "_id": "553d001b0d840383ba1002c8",
+            "message": "messaggio1",
+            "timestamp": 1430061083351
+        },{
+            "_id": "553d001d0d840383ba1002ca",
+            "message": "messaggio2",
+            "timestamp": 1430061085214
+        },{
+            "_id": "553d0279c93f1a29bd78ae8f",
+            "message": "ciao",
+            "timestamp": 1430061689521
+        }
+    ],
+    "user2": [
+        {
+            "_id": "553d010077739d88bb8fff1d",
+            "message": "bella zio",
+            "timestamp": 1430061312797
+        },{
+            "_id": "553d02be5e48e475bd7fe2d1",
+            "message": "ciao",
+            "timestamp": 1430061758347
+        }
+    ]
 }
 ```
 
