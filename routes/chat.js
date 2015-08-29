@@ -4,7 +4,7 @@ var app = express();
 var io = require('socket.io').listen(app.listen());
 
 // Demo data
-// db.chat.insert({"user1" : "553d67e6e76c4761ccb25077", "user2" : "5530d2ec218629bd9fac825b", "data" : {"user1" : {"553cede16cfae4e7b96762a0" : ["MEss utente 1","1430056736956"],"553cede16cfae4e7b96762aa" : ["Altro mess utente2","1430056736960"]},"user2" : {"553cede16cfae4e7b96762f0" : ["Ciao questo è un messaggio","1430056736856"],"553cede16cfae4e7b96762fa" : ["Ciao questo è un secndo messaggio","1430056736959"]}}})
+//{ "_id" : ObjectId("55e17cbc20942266594abdc9"), "user1" : "5530d2eb218629bd9fac825a", "user2" : "5530d2ec218629bd9fac825b", "data" : { "user1" : [ { "_id" : "55e17cbc20942266594abdc8", "message" : "ciao 1!", "timestamp" : 1440840892363 }, { "_id" : "55e17cc420942266594abdcb", "message" : "ciao3!", "timestamp" : 1440840900956 }, { "_id" : "55e1b7741c9dfa936dc29f8b", "message" : "still me", "timestamp" : 1440855924898 } ], "user2" : [ { "_id" : "55e17cc120942266594abdca", "message" : "ciao2!", "timestamp" : 1440840897366 }, { "_id" : "55e1b7831c9dfa936dc29f8c", "message" : "now i'm 2", "timestamp" : 1440855939812 } ] } }
 
 /**
  * /api/chat
@@ -17,12 +17,33 @@ router.get('/', function (req, res, next) {
 
   // Non abbiamo la certezza di chi sia utente1 e utente2,
   // quindi cerchiamo entrambe le combinazioni
+  chat.col.aggregate([
+    { $match: {
+      $or:[
+      {'user1': User._id.toString() },
+      {'user2': User._id.toString() }
+      ]
+    }},
+    { $unwind: '$data.user1' },
+    { $unwind: '$data.user2' },
+
+    { "$group": {
+        _id: { user1: "$user1", user2: "$user2" },
+        user1: { $addToSet:  "$data.user1" },
+        user2: { $addToSet:  "$data.user2" }
+    }}
+  ],function(err,doc){
+    res.json(doc)
+  }
+  );
+
+  /* OLD QUERY
   chat.find({ $or: [ 
-  	{'user1': User._id.toString() },
-  	{'user2': User._id.toString() },
+  	,
   	]}, function(err, doc){
     	res.json(doc);
   });
+  */
 });
 
 /**
@@ -38,17 +59,23 @@ router.get('/:id', function (req, res, next) {
 
   // Non abbiamo la certezza di chi sia utente1 e utente2,
   // quindi cerchiamo entrambe le combinazioni
-  chat.findOne({ $or: [ 
-    {'user1': User._id.toString() , 'user2': req.params.id },
-    {'user2': User._id.toString() , 'user1': req.params.id },
-    ]}, function(err, doc){
-      if(doc !== null) {
-        res.json(doc);
-      } else {
-        res.json(false);
-      }
-  });
 
+  chat.col.aggregate([
+    { $match: {
+      "user1": {$in: [User._id.toString(),req.params.id]},
+      "user2": {$in: [User._id.toString(),req.params.id]}
+    }},
+    { $unwind: '$data.user1' },
+    { $unwind: '$data.user2' },
+    { "$group": {
+        _id: { user1: "$user1", user2: "$user2" },
+        user1: { $addToSet:  "$data.user1" },
+        user2: { $addToSet:  "$data.user2" }
+    }}
+  ],function(err,doc){
+    res.json(doc)
+  }
+  );
 
 });
 
@@ -66,20 +93,31 @@ router.get('/:id/:timestamp', function (req, res, next) {
   var chat = db.get('chat');
 
 
-  // NON DEL TUTTO CORRETTA -> UNISCE I RISULTATI SENZA POI RISEPARARLI
   chat.col.aggregate([
-    { $unwind: '$data.user1' }, 
+    { $match: {
+      "user1": {$in: [User._id.toString(),req.params.id]},
+      "user2": {$in: [User._id.toString(),req.params.id]}
+    }},
+    { $unwind: '$data.user1' },
     { $unwind: '$data.user2' },
-    { $match: { 'data.user1.timestamp' : { $gte: parseInt(req.params.timestamp) } } },
-    { $match: { 'data.user2.timestamp' : { $gte: parseInt(req.params.timestamp) } } },
-    { $match: { $or: [ 
-      {'user1': User._id.toString() , 'user2': req.params.id }, 
-      {'user2': User._id.toString() , 'user1': req.params.id }
-    ]}}
+    { $match: {
+        "data.user1.timestamp": { $gte: parseInt(req.params.timestamp) }
+      }
+    },
+    { $match: {
+        "data.user2.timestamp": { $gte: parseInt(req.params.timestamp) }
+      }
+    },
+
+    { "$group": {
+        _id: { user1: "$user1", user2: "$user2" },
+        user1: { $addToSet:  "$data.user1" },
+        user2: { $addToSet:  "$data.user2" }
+    }}
   ],function(err,doc){
     res.json(doc)
-  });
-
+  }
+  );
 
 });
 

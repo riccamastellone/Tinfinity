@@ -180,7 +180,7 @@ Example response
 }
 ```
 
-If the conversation does not exists, the response will be `false`
+If the conversation does not exists, the response will be an empty array.
 
 #### Real-time Websocket Chat
 You may listen to your Socket.io channel `message-{id}`, where `{id}` is your user id.
