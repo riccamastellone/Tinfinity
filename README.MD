@@ -95,6 +95,7 @@ Example response
         "_id": "5530d2ec218629bd9fac825b",
         "name": "Giovanni",
         "surname": "P.",
+        "image": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p200x200/10351916_10154591446635109_1356913014075742012_n.jpg",
         "relationship": null
     },
     "distance": 8,
@@ -118,6 +119,7 @@ Example response with no relationship
     "_id": "5530d2ec218629bd9fac825b",
     "name": "Giovanni",
     "surname": "P.",
+    "image": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p200x200/10351916_10154591446635109_1356913014075742012_n.jpg",
     "relationship": null
 }
 ```

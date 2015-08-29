@@ -16,6 +16,7 @@ exports.filterUser = function(doc) {
 		 	_id : doc._id, 
 			name : doc.name, 
 			surname : doc.surname.charAt(0) + ".", 
+      image : doc.image,
 			gender : doc.gender,
 			relationship : null 
 		};
