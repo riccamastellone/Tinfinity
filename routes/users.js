@@ -61,9 +61,8 @@ router.post('/', function(req, res, next) {
     } else {
       var data = [];
       docs.forEach(function(entry){
-        // Additional security check: we don't want to return
-        // users with no location
-        if(entry.position !== undefined) {
+        // We don't need to return ourselves
+        if(entry._id != User._id.toString()) {
           data.push({
             user: custom.filterUser(entry),
             position : {
