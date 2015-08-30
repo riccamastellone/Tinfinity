@@ -65,7 +65,11 @@ router.get('/:id', function (req, res, next) {
         user2: { $addToSet:  "$data.user2" }
     }}
   ],function(err,doc){
-    res.json(doc)
+    if(doc.length > 0) {
+      res.json(doc[0])
+    } else {
+      res.json([])
+    }
   }
   );
 
@@ -76,7 +80,7 @@ router.get('/:id', function (req, res, next) {
 /**
  * /api/chat/{id}/{timestamp}
  * Recupero lo storico di una conversazione a partire
- * da un determinato timestamp {timestamp }con l'utente {id}
+ * da un determinato timestamp {timestamp} con l'utente {id}
  * returns { .. }
  */
  
@@ -85,17 +89,28 @@ router.get('/:id/:timestamp', function (req, res, next) {
   var chat = db.get('chat');
 
 
-  chat.col.aggregate([
+chat.col.aggregate([
     { $match: {
       "user1": {$in: [User._id.toString(),req.params.id]},
       "user2": {$in: [User._id.toString(),req.params.id]}
     }},
     { $unwind: '$data.user1' },
-    { $unwind: '$data.user2' },
     { $match: {
         "data.user1.timestamp": { $gte: parseInt(req.params.timestamp) }
       }
     },
+    { "$group": {
+        _id: { _id: "$_id", user1: "$user1", user2: "$user2"},
+        user1: { $addToSet:  "$data.user1" },
+    }}
+  ],function(err,user1){
+    // INIZIO SOTTO QUERY
+    chat.col.aggregate([
+    { $match: {
+      "user1": {$in: [User._id.toString(),req.params.id]},
+      "user2": {$in: [User._id.toString(),req.params.id]}
+    }},
+    { $unwind: '$data.user2' },
     { $match: {
         "data.user2.timestamp": { $gte: parseInt(req.params.timestamp) }
       }
@@ -103,13 +118,48 @@ router.get('/:id/:timestamp', function (req, res, next) {
 
     { "$group": {
         _id: { _id: "$_id", user1: "$user1", user2: "$user2" },
-        user1: { $addToSet:  "$data.user1" },
         user2: { $addToSet:  "$data.user2" }
     }}
-  ],function(err,doc){
+  ],function(err,user2){
+    // Both users have new chat elements
+    if(user1.length > 0 && user2.length > 0) {
+      doc = {
+         "_id" : {
+          "_id" : user1[0]._id._id,
+          "user1": user1[0]._id.user1,
+          "user2": user2[0]._id.user2
+        },
+        "user1" : user1[0].user1,
+        "user2" : user2[0].user2
+      }
+    } else if(user1.length > 0 && user2.length == 0) {
+      doc = {
+         "_id" : {
+          "_id" : user1[0]._id._id,
+          "user1": user1[0]._id.user1,
+          "user2": user1[0]._id.user2
+        },
+        "user1" : user1[0].user1,
+        "user2" : []
+      }
+    } else if(user1.length == 0 && user2.length > 0) {
+      doc = {
+         "_id" : {
+          "_id" : user2[0]._id._id,
+          "user1": user2[0]._id.user1,
+          "user2": user2[0]._id.user2
+        },
+        "user1" : [],
+        "user2" : user2[0].user2
+      }
+    } else {
+      doc = {}
+    }
     res.json(doc)
-  }
-  );
+    // END CALLBACK2
+  })
+  // END CALLBACK1
+});
 
 });
 

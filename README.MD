@@ -19,7 +19,7 @@ Web server, written in NodeJS, for the IOS application Tinfinity.
 
 3 - Launch mongodb daemon
 
-        mongod
+        mongod --config=/usr/local/etc/mongod.conf
 
 4 - Install dependencies
 
@@ -30,7 +30,7 @@ Web server, written in NodeJS, for the IOS application Tinfinity.
         npm start
 
 
-NOTE: To use MongoDB Geopacital tools, the users position must be set as a 2dindex: db.users.ensureIndex({position:"2dsphere"});
+NOTE: To use MongoDB Geopacital tools, the users position must be set as a 2dindex: db.users.ensureIndex({position:"2d"});
 
 ### Something more about it
 
