@@ -96,7 +96,7 @@ chat.col.aggregate([
     }},
     { $unwind: '$data.user1' },
     { $match: {
-        "data.user1.timestamp": { $gte: parseInt(req.params.timestamp) }
+        "data.user1.timestamp": { $gt: parseInt(req.params.timestamp) }
       }
     },
     { "$group": {
@@ -112,7 +112,7 @@ chat.col.aggregate([
     }},
     { $unwind: '$data.user2' },
     { $match: {
-        "data.user2.timestamp": { $gte: parseInt(req.params.timestamp) }
+        "data.user2.timestamp": { $gt: parseInt(req.params.timestamp) }
       }
     },
 
