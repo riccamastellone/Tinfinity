@@ -65,10 +65,7 @@ router.post('/', function(req, res, next) {
         if(entry._id != User._id.toString()) {
           data.push({
             user: custom.filterUser(entry),
-            position : {
-              latitude : entry.latitude,
-              longitude : entry.longitude
-            }
+            position : entry.position
           }); 
         }
       });
