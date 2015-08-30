@@ -59,6 +59,7 @@ module.exports = function (io) {
                 } 
                 // Il documento esiste, appendiamo il messaggio
                 else {
+                  console.log("Sent chat message");
                   // Dato che non sappiamo con certezza se al livello di 
                   // DB gli utenti sono salvati come user1 o user2, dobbiamo
                   // gestire i due casi
