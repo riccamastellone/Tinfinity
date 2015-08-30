@@ -29,6 +29,9 @@ Web server, written in NodeJS, for the IOS application Tinfinity.
 
         npm start
 
+
+NOTE: To use MongoDB Geopacital tools, the users position must be set as a 2dindex: db.users.ensureIndex({position:"2dsphere"});
+
 ### Something more about it
 
 

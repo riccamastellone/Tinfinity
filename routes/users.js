@@ -37,13 +37,10 @@ router.post('/', function(req, res, next) {
   });
 
   // Ritorniamo gli utenti più vicini
-  // Al momento torniamo solo la chiave dell'array,
-  // poi torneremo anche le informazioni visibili
-  // dall'utente che effettua la richiesta in base
-  // alle relazioni
   users.find({
     position: {
       $nearSphere: {
+        $exists: true,
         $geometry: {
           type: "User" ,
           coordinates: [ position.latitude, position.longitude ]
