@@ -59,15 +59,17 @@ router.post('/', function(req, res, next) {
     if(docs.length == 0) {
       res.json([]);
     } else {
+      var data = [];
       docs.forEach(function(entry){
-        res.json({
+        data.push({
           user: custom.filterUser(entry),
           position : {
             latitude : entry.latitude,
             longitude : entry.longitude
           }
         })
-      })
+      });
+      res.json(data);
     }
   });
   
