@@ -12,7 +12,7 @@ module.exports = function (io) {
   var chat = db.get('chat');
 
     io.on('connection', function(socket){
-      console.log('User connetect via Socket.io');
+      console.log('User connected via Socket.io');
 
       // Messaggio inviato da un client
       socket.on('message', function(data){

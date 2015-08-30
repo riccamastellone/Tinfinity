@@ -75,8 +75,10 @@ Example response
     "surname": "Mastellone",
     "email": "riccardo.mastellone@gmail.com",
     "token": "thisisatoken",
-    "latitude": "45.484083899999995",
-    "longitude": "9.209276899999999",
+    "position": {
+        "latitude": "45.484083899999995",
+        "longitude": "9.209276899999999",
+    }
     "relationships": {
         "5530d2ec218629bd9fac825b": "requested"
     }
@@ -98,7 +100,6 @@ Example response
         "image": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p200x200/10351916_10154591446635109_1356913014075742012_n.jpg",
         "relationship": null
     },
-    "distance": 8,
     "position": {
         "latitude": 45.484083899999995,
         "longitude": 9.209376899999999

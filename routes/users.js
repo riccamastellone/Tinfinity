@@ -2,6 +2,8 @@ var custom = require('../custom_modules/custom');
 var express = require('express');
 var router = express.Router();
 
+// Necessario affinche le query funzionino:
+// db.users.ensureIndex({position:"2dsphere"});
 
 /**
  * /api/users/me
@@ -27,11 +29,11 @@ router.post('/', function(req, res, next) {
 	var users = db.get('users');
   var geolib = require('geolib');
 
-  var position = { latitude: req.body.lat , longitude: req.body.lon};
+  var position = { latitude: parseFloat(req.body.lat) , longitude: parseFloat(req.body.lon) };
 
   // Aggiorniamo la posizione dell'utente
-  users.updateById(User._id, { $set : position}, function (err, doc) {
-	  if (err) throw err;
+  users.updateById(User._id, { $set : { position : position } }, function (err, doc) {
+	  if (err) throw err
   });
 
   // Ritorniamo gli utenti più vicini
@@ -39,19 +41,36 @@ router.post('/', function(req, res, next) {
   // poi torneremo anche le informazioni visibili
   // dall'utente che effettua la richiesta in base
   // alle relazioni
-  users.find({}, function (err, docs){
-  	var nearest = geolib.findNearest(position, docs, 1, 20);
-  	nearest.forEach(function(entry){
+  users.find({
+    position: {
+      $nearSphere: {
+        $geometry: {
+          type: "User" ,
+          coordinates: [ position.latitude, position.longitude ]
+        },
+        $maxDistance: 1000
+      }
+    }
+
+  }, function (err, docs){
+    if(err) throw err
+
+    // No users?
+    if(docs.length == 0) {
+      res.json([]);
+    } else {
+      docs.forEach(function(entry){
         res.json({
-        	user : custom.filterUser(docs[entry.key]),
-        	distance : entry.distance,
-        	position : {
-        		latitude : entry.latitude,
-        		longitude : entry.longitude
-        	}
-        });
-    });
+          user: custom.filterUser(entry),
+          position : {
+            latitude : entry.latitude,
+            longitude : entry.longitude
+          }
+        })
+      })
+    }
   });
+  
 
 });
 

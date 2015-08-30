@@ -40,6 +40,7 @@ router.post('/fb', function(req, res, next) {
                 facebook_id : fb_data.id,
                 token : token,
                 image : fb_data.picture.data.url,
+                image_square : 'https://graph.facebook.com/' + fb_data.id + '/picture?width=400&height=400',
                 updated_at : Date.now()
           	}
 
