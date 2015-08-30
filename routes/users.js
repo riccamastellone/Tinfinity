@@ -37,34 +37,41 @@ router.post('/', function(req, res, next) {
   });
 
   // Ritorniamo gli utenti più vicini
-  users.find({
-    position: {
-      $nearSphere: {
-        $exists: true,
-        $geometry: {
-          type: "User" ,
-          coordinates: [ position.latitude, position.longitude ]
-        },
-        $maxDistance: 1000
-      }
-    }
-
+  users.find({ 
+    $and: [ 
+      // We have to filter out users with no coordinates
+      { position: { $exists: true } }, 
+      { position: {
+          $nearSphere: {
+            $geometry: {
+              type: "User" ,
+              coordinates: [ position.latitude, position.longitude ]
+            },
+            $maxDistance: 1000
+          }
+        }
+      } 
+    ] 
   }, function (err, docs){
     if(err) throw err
 
     // No users?
-    if(docs.length == 0) {
+    if(docs === undefined || docs.length == 0) {
       res.json([]);
     } else {
       var data = [];
       docs.forEach(function(entry){
-        data.push({
-          user: custom.filterUser(entry),
-          position : {
-            latitude : entry.latitude,
-            longitude : entry.longitude
-          }
-        })
+        // Additional security check: we don't want to return
+        // users with no location
+        if(entry.position !== undefined) {
+          data.push({
+            user: custom.filterUser(entry),
+            position : {
+              latitude : entry.latitude,
+              longitude : entry.longitude
+            }
+          }); 
+        }
       });
       res.json(data);
     }
