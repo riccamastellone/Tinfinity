@@ -19,6 +19,27 @@ router.get('/me', function (req, res, next) {
   });
 });
 
+
+/**
+ * /api/users/me/images
+ * Sincronizza le immagini dell'utente app->server
+ * returns { .. } Uguale a /me
+ */
+router.post('/me/images', function (req, res, next) {
+  var db = req.db;
+  var users = db.get('users');
+
+  // Aggiorniamo la posizione dell'utente
+  users.updateById(User._id, { $set : { images : req.body.images } }, function (err, doc) {
+    if (err) throw err
+    // Non viene ritornato alcun elemento nella callback, quindi
+    // eseguiamo una nuova query per ritornare l'utente
+    users.findOne({ _id : User._id }, function(err, doc){
+      res.json(doc);
+    });
+  });
+});
+
 /**
  * /api/users
  * Recupero la lista degli utenti piu vicini a me
