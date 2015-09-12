@@ -33,17 +33,17 @@ router.post('/me/images', function (req, res, next) {
     res.json("What are you doing?");
   } else {
     users.updateById(User._id, 
-    { $push: {
-          images: {
-             $each: [ 'HELLO' ],
-             $position: parseInt(red.body.image)
-          }
-       }
-     }, function(err, doc) {
-      if (err) throw err;
-      res.json('Thank you sir')
-  });
-
+      { $push: {
+            images: {
+               $each: [ 'HELLO' ],
+               $position: parseInt(red.body.image)
+            }
+         }
+       }, function(err, doc) {
+        if (err) throw err;
+        res.json('Thank you sir')
+    });
+  }
 });
 
 /**
