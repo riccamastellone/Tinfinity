@@ -32,14 +32,10 @@ router.post('/me/images', function (req, res, next) {
   if(isNaN(parse)) {
     res.json("What are you doing?");
   } else {
+    var query = {};
+    query['images.' + position] = req.body.imageData;
     users.updateById(User._id, 
-      { $push: {
-            images: {
-               $each: [ 'HELLO' ],
-               $position: position
-            }
-         }
-       }, function(err, doc) {
+      { $set: query }, function(err, doc) {
         if (err) throw err;
         res.json('Thank you sir')
     });
