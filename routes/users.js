@@ -36,7 +36,7 @@ router.post('/me/images', function (req, res, next) {
       { $push: {
             images: {
                $each: [ 'HELLO' ],
-               $position: parseInt(red.body.image)
+               $position: position
             }
          }
        }, function(err, doc) {
