@@ -27,11 +27,23 @@ router.get('/me', function (req, res, next) {
 router.post('/me/images', function (req, res, next) {
   var db = req.db;
   var users = db.get('users');
-  console.log(req.body);
-  users.updateById(User._id, { images : { $set : { parseInt(red.body.image) : req.body.imageData } } }, function (err, doc) {
-        if (err) throw err;
-        res.json('Thank you sir')
-    });
+
+  var position = parseInt(req.body.image)
+  if(isNaN(parse)) {
+    res.json("What are you doing?");
+  } else {
+    users.updateById(User._id, 
+    { $push: {
+          images: {
+             $each: [ 'HELLO' ],
+             $position: parseInt(red.body.image)
+          }
+       }
+     }, function(err, doc) {
+      if (err) throw err;
+      res.json('Thank you sir')
+  });
+
 });
 
 /**
