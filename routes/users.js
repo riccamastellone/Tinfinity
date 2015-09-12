@@ -19,9 +19,8 @@ router.get('/me', function (req, res, next) {
   });
 });
 
-
 /**
- * /api/users/me/images
+ * POST /api/users/me/images
  * Sincronizza le immagini dell'utente app->server
  * returns { .. } Uguale a /me
  */
@@ -29,7 +28,10 @@ router.post('/me/images', function (req, res, next) {
   var db = req.db;
   var users = db.get('users');
   console.log(req.body);
-  res.json('Hello')
+  users.updateById(User._id, { images : { $set : { parseInt(red.body.image) : req.body.imageData } } }, function (err, doc) {
+        if (err) throw err;
+        res.json('Thank you sir')
+    });
 });
 
 /**

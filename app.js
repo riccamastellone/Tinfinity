@@ -10,6 +10,10 @@ var monk = require('monk');
 var db = monk('localhost:27017/tinfinity');
 var app = express();
 
+// Required for images upload
+app.use(bodyParser.json({limit: '10mb'}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
+
 app.use(function(req,res,next){
     //penso che non vada bene qui questo
 
