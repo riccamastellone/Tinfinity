@@ -58,7 +58,9 @@ Example response
     "surname": "Mastellone",
     "gender": "male",
     "token": "1dd45c7cedf1460bf218cdb206982ec8d6b70e11fdd60193ad27356e40069f5c",
-    "image": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p200x200/10351916_10154591446635109_1356913014075742012_n.jpg",
+    "images": {
+        "0": BASE64DATA"
+    },
     "updated_at": 1430087797216,
     "created_at": 1430087654568
 }
@@ -100,7 +102,9 @@ Example response
         "_id": "5530d2ec218629bd9fac825b",
         "name": "Giovanni",
         "surname": "P.",
-        "image": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p200x200/10351916_10154591446635109_1356913014075742012_n.jpg",
+        "images": {
+            "0": BASE64DATA"
+        },
         "relationship": null
     },
     "position": {
@@ -123,7 +127,9 @@ Example response with no relationship
     "_id": "5530d2ec218629bd9fac825b",
     "name": "Giovanni",
     "surname": "P.",
-    "image": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtf1/v/t1.0-1/p200x200/10351916_10154591446635109_1356913014075742012_n.jpg",
+    "images": {
+        "0": BASE64DATA"
+    },
     "relationship": null
 }
 ```

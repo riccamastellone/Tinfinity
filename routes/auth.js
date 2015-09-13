@@ -32,30 +32,43 @@ router.post('/fb', function(req, res, next) {
 		    // Sia che esista, che non, creiamo un nuovo token di accesso
 	    	var token = require('crypto').randomBytes(32).toString('hex');
 
-	    	// E aggiorniamo tutti i dati presi da facebook
-	    	var user = {
-                name : fb_data.first_name,
-                surname : fb_data.last_name,
-                gender : fb_data.gender,
-                facebook_id : fb_data.id,
-                token : token,
-                image : fb_data.picture.data.url,
-                image_square : 'https://graph.facebook.com/' + fb_data.id + '/picture?width=400&height=400',
-                updated_at : Date.now()
-          	}
+	    	
+          	// Recuperiamo l'immagine così da averla in locale e servirla in base64
+          	https.get(fb_data.picture.data.url, function(obj) {
+          		var body = '';
 
-			users.update({ facebook_id : fb_data.id},
-				{ $set : user, $setOnInsert: { created_at: Date.now() } },
-				{ upsert: true }, function(err, doc){
-					if(err) throw err;
-					// Pare la callback dell'update non ritorni l'oggetto, 
-					// quindi lo andiamo a ripescare così
-					users.findOne({ facebook_id : fb_data.id},function(err,doc){
-						res.json(doc);
+			    obj.on('data', function(chunk) {
+			        body += chunk;
+			    });
+		 		obj.on('end', function () {
+          			var base64image = new Buffer(body).toString('base64');
+
+
+          			// E aggiorniamo tutti i dati presi da facebook
+			    	var user = {
+		                name : fb_data.first_name,
+		                surname : fb_data.last_name,
+		                gender : fb_data.gender,
+		                facebook_id : fb_data.id,
+		                token : token,
+		                images: {
+		                	'0' : base64image
+		                },
+		                updated_at : Date.now()
+		          	}
+
+		          	users.update({ facebook_id : fb_data.id},
+						{ $set : user, $setOnInsert: { created_at: Date.now() } },
+						{ upsert: true }, function(err, doc){
+							if(err) throw err;
+							// Pare la callback dell'update non ritorni l'oggetto, 
+							// quindi lo andiamo a ripescare così
+							users.findOne({ facebook_id : fb_data.id},function(err,doc){
+								res.json(doc);
+							});
 					});
-			})
-
-
+		        });
+          	});
 
 		  });
 	}).on('error', function(e) {

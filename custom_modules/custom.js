@@ -16,7 +16,7 @@ exports.filterUser = function(doc) {
 		 	_id : doc._id, 
 			name : doc.name, 
 			surname : doc.surname.charAt(0) + ".", 
-      image : doc.image,
+      images :  doc.images,
 			gender : doc.gender,
 			relationship : null 
 		};
@@ -32,7 +32,6 @@ exports.filterUser = function(doc) {
     	var moment = require('moment');
     	
     	data.surname = doc.surname;
-    	data.image = doc.image;
     	
     	data.age = moment().diff(doc.birthdate, 'years');
 	} 
