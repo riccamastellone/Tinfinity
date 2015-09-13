@@ -29,7 +29,8 @@ router.post('/me/images', function (req, res, next) {
   var users = db.get('users');
 
   var position = parseInt(req.body.image)
-  if(isNaN(parse)) {
+  
+  if(isNaN(position)) {
     res.json("What are you doing?");
   } else {
     var query = {};
@@ -40,6 +41,7 @@ router.post('/me/images', function (req, res, next) {
         res.json('Thank you sir')
     });
   }
+  
 });
 
 /**
