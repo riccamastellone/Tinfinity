@@ -34,7 +34,7 @@ router.post('/fb', function(req, res, next) {
 
 	    	// Recuperiamo l'immagine così da averla in locale e servirla in base64
 	    	request({
-		      uri: url,
+		      uri: fb_data.picture.data.url,
 		      encoding: 'binary'
 		    }, function(error, response, body) {
 		      var image;
