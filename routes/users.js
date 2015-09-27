@@ -53,10 +53,16 @@ router.post('/me/images', function (req, res, next) {
 router.get('/:id', function (req, res, next) {
   var db = req.db;
   var users = db.get('users');
+  var id = req.params.id;
 
-  users.findOne({ _id : req.params.id }, function(err, doc){
-    res.json(custom.filterUser(doc));
+  users.findOne({ _id : id }, function(err, doc){
+    if(err !== null) {
+      res.json({ error : "Error retrieving data"});
+    } else {
+      res.json(custom.filterUser(doc));
+    }
   });
+  
 });
 
 
