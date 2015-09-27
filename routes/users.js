@@ -45,6 +45,54 @@ router.post('/me/images', function (req, res, next) {
 });
 
 /**
+ * /api/users/{id}
+ * Recupero le informazioni relative ad un altro utente in
+ * base alla relazione presente fra i due
+ * returns { .. }
+ */
+router.get('/:id', function (req, res, next) {
+  var db = req.db;
+  var users = db.get('users');
+
+  users.findOne({ _id : req.params.id }, function(err, doc){
+    res.json(custom.filterUser(doc));
+  });
+});
+
+
+
+/*
+ * /api/users/{id}/add
+ * Invio una richiesta di contatto a un utente
+ * @return { relationship : status }
+ *
+ */
+router.get('/:id/add', function (req, res, next) {
+  var db = req.db;
+  var users = db.get('users');
+
+  if(User.hasOwnProperty('relationships') === false) {
+    users.updateById(User._id, { $set : {relationships : {}}}, function (err, doc) {
+        if (err) throw err;
+        // Bisogna usare la promise, altrimenti non fa in tempo ad aggiungere
+        // il campo che il codice dopo prova ad accederci
+    });
+  }
+
+  if(typeof User.relationships[req.params.id] === 'undefined') {
+    relationship = {}
+    relationship[req.params.id] = 'requested';
+    console.log(relationship);
+    users.updateById(User._id, { $set : {relationships : relationship}}, function (err, doc) {
+        if (err) throw err;
+        res.json({ relationship : 'requested'});
+    });
+  } else {
+    res.json({ relationship : User.relationships[req.params.id]});
+  }
+});
+
+/**
  * /api/users
  * Recupero la lista degli utenti piu vicini a me
  * returns { .. }
@@ -101,51 +149,6 @@ router.post('/', function(req, res, next) {
 
 });
 
-/**
- * /api/users/{id}
- * Recupero le informazioni relative ad un altro utente in
- * base alla relazione presente fra i due
- * returns { .. }
- */
-router.get('/:id', function (req, res, next) {
-  var db = req.db;
-	var users = db.get('users');
 
-  users.findOne({ _id : req.params.id }, function(err, doc){
-  	res.json(custom.filterUser(doc));
-  });
-});
-
-
-/*
- * /api/users/{id}/add
- * Invio una richiesta di contatto a un utente
- * @return { relationship : status }
- *
- */
-router.get('/:id/add', function (req, res, next) {
-	var db = req.db;
-	var users = db.get('users');
-
-  if(User.hasOwnProperty('relationships') === false) {
-    users.updateById(User._id, { $set : {relationships : {}}}, function (err, doc) {
-        if (err) throw err;
-        // Bisogna usare la promise, altrimenti non fa in tempo ad aggiungere
-        // il campo che il codice dopo prova ad accederci
-    });
-  }
-
-  if(typeof User.relationships[req.params.id] === 'undefined') {
-    relationship = {}
-    relationship[req.params.id] = 'requested';
-    console.log(relationship);
-		users.updateById(User._id, { $set : {relationships : relationship}}, function (err, doc) {
-			  if (err) throw err;
-        res.json({ relationship : 'requested'});
-		});
-	} else {
-		res.json({ relationship : User.relationships[req.params.id]});
-	}
-});
 
 module.exports = router;
