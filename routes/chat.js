@@ -78,13 +78,13 @@ router.get('/:id', function (req, res, next) {
 
 
 /**
- * /api/chat/{id}/{timestamp}
+ * /api/chat/{id}/{messageid}
  * Recupero lo storico di una conversazione a partire
- * da un determinato timestamp {timestamp} con l'utente {id}
+ * da un determinato message id con l'utente {id}
  * returns { .. }
  */
  
-router.get('/:id/:timestamp', function (req, res, next) {
+router.get('/:id/:messageid', function (req, res, next) {
   var db = req.db;
   var chat = db.get('chat');
 
@@ -96,7 +96,7 @@ chat.col.aggregate([
     }},
     { $unwind: '$data.user1' },
     { $match: {
-        "data.user1.timestamp": { $gt: parseInt(req.params.timestamp) }
+        "data.user1._id": { $gt: req.params.messageid }
       }
     },
     { "$group": {
@@ -112,7 +112,7 @@ chat.col.aggregate([
     }},
     { $unwind: '$data.user2' },
     { $match: {
-        "data.user2.timestamp": { $gt: parseInt(req.params.timestamp) }
+        "data.user2._id": { $gt: req.params.messageid }
       }
     },
 

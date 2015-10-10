@@ -154,7 +154,7 @@ GET /api/chat/{id}
 ```
 #### Retrive conversation history starting from a precise point in time
 ```
-GET /api/chat/{id}/{timestamp}
+GET /api/chat/{id}/{message-id}
 ```
 Example response
 ```
