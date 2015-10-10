@@ -93,7 +93,7 @@ module.exports = function (io) {
                 users.findById(data.user1, function(err, doc){
                   Pushbots.setMessage(doc.name + ': ' + data.message, '0');
                   Pushbots.sendByAlias(data.user2);
-                  Pushbots.push();
+                  Pushbots.push(function(response){});
                 });
                 
 
