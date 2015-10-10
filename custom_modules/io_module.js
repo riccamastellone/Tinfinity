@@ -11,6 +11,13 @@ module.exports = function (io) {
   var users = db.get('users');
   var chat = db.get('chat');
 
+  var pushbots = require('pushbots');
+  var Pushbots = new pushbots.api({
+      id:'56179eb117795989018b4567',
+      secret:'8f833dd534760fe2ee4d404c388b3847'
+  });
+
+
     io.on('connection', function(socket){
       console.log('User connected via Socket.io');
 
