@@ -91,7 +91,7 @@ module.exports = function (io) {
 
                 // 4. Invio notifica tramite PushBots
                 users.findById(data.user1, function(err, doc){
-                  Pushbots.setMessage(data.message ,1);
+                  Pushbots.setMessage(data.message, 0);
                   Pushbots.customNotificationTitle(doc.name);
                   Pushbots.sendByAlias(data.user2);
                   Pushbots.push(function(response){
