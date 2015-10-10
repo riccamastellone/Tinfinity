@@ -67,13 +67,6 @@ Example response
 ```
 
 
-### Registering a device 
-```
-POST /api/device/register
-deviceToken=.....
-```
-
-
 ### Users
 
 #### Retrive info about myself

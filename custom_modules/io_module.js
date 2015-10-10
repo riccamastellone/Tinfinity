@@ -82,6 +82,17 @@ module.exports = function (io) {
                   timestamp : timestamp
                 });
 
+                // 4. Invio notifica tramite PushBots
+                users.findById(data.user1 function(err, doc){
+                  Pushbots.setMessage(data.message ,1);
+                  Pushbots.customNotificationTitle(doc.name);
+                  Pushbots.sendByAlias(data.user2);
+                  Pushbots.push(function(response){
+                      console.log(response);
+                  });
+                });
+                
+
             });
             
 

@@ -45,7 +45,4 @@ router.use('/users', users);
 var chat = require('./chat');
 router.use('/chat', chat);
 
-var device = require('./device');
-router.use('/device', device);
-
 module.exports = router;
