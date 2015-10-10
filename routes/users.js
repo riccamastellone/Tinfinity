@@ -28,13 +28,13 @@ router.post('/me/images', function (req, res, next) {
   var db = req.db;
   var users = db.get('users');
 
-  var position = parseInt(req.body.image)
+  var index = parseInt(req.body.image)
   
-  if(isNaN(position)) {
+  if(isNaN(index)) {
     res.json("What are you doing?");
   } else {
     var query = {};
-    query['images.' + position] = req.body.imageData;
+    query['images.' + req.body.image] = req.body.imageData;
     users.updateById(User._id, 
       { $set: query }, function(err, doc) {
         if (err) throw err;
