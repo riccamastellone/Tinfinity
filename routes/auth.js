@@ -66,14 +66,12 @@ router.post('/fb', function(req, res, next) {
 		      }
 		    });
 
-          	
-          	
-
 		  });
 	}).on('error', function(e) {
 		res.json({'error' : e.message})
 	});
 
 });
+
 
 module.exports = router;
