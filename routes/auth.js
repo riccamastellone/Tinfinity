@@ -15,7 +15,7 @@ router.post('/fb', function(req, res, next) {
 
 	var base = "https://graph.facebook.com/v2.3";
 
-	https.get(base + "/me?fields=picture.type(large),first_name,last_name,gender,id,user_birthday,email&access_token=" + fb_token, function(obj) {
+	https.get(base + "/me?fields=picture.type(large),first_name,last_name,gender,id,birthday,email&access_token=" + fb_token, function(obj) {
 		var body = '';
 
 	    obj.on('data', function(chunk) {
