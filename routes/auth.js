@@ -64,7 +64,7 @@ router.post('/fb', function(req, res, next) {
 						// Pare la callback dell'update non ritorni l'oggetto, 
 						// quindi lo andiamo a ripescare così
 						users.findOne({ facebook_id : fb_data.id},function(err,doc){
-							doc.age = moment().diff(doc.birthdate, 'years');
+							doc['age'] = moment().diff(doc.birthdate, 'years');
 							res.json(doc);
 						});
 				});
