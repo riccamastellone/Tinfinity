@@ -1,6 +1,11 @@
 var custom = require('../custom_modules/custom');
 var express = require('express');
 var router = express.Router();
+var pushbots = require('pushbots');
+var Pushbots = new pushbots.api({
+    id:'56179eb117795989018b4567',
+    secret:'8f833dd534760fe2ee4d404c388b3847'
+});
 
 // Necessario affinche le query funzionino:
 // db.users.ensureIndex({position:"2dsphere"});
@@ -100,11 +105,6 @@ router.get('/:id/add', function (req, res, next) {
     });
 
     // Notifica
-    var pushbots = require('pushbots');
-    var Pushbots = new pushbots.api({
-        id:'56179eb117795989018b4567',
-        secret:'8f833dd534760fe2ee4d404c388b3847'
-    });
     Pushbots.setMessage(User.name + ' sent you a request', '0');
     Pushbots.sendByAlias(req.params.id);
     Pushbots.push(function(response){});
@@ -147,9 +147,11 @@ router.get('/:id/accept', function (req, res, next) {
         users.updateById(doc._id, { $set : {relationships : relationship}}, function (err, doc) {
             if (err) throw err;
         });
-
     });
 
+    Pushbots.setMessage(User.name + ' accepted your request!', '0');
+    Pushbots.sendByAlias(req.params.id);
+    Pushbots.push(function(response){});
 
   } else {
     res.json('What are you trying to do?');
