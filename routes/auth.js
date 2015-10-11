@@ -47,13 +47,16 @@ router.post('/fb', function(req, res, next) {
 	                gender : fb_data.gender,
 	                facebook_id : fb_data.id,
 	                token : token,
-	                updated_at : Date.now(),
-	                relationships : {}
+	                updated_at : Date.now()
 	          	}
 
 	          	users.update({ facebook_id : fb_data.id},
 	          		// Aggiungiamo l'immagine solo se è un nuovo inserimento
-					{ $set : user, $setOnInsert: { created_at: Date.now(), images : { '0' : image } } },
+					{ $set : user, $setOnInsert: { 
+						created_at: Date.now(), 
+						images : { '0' : image },
+						relationships : {}
+						 } },
 					{ upsert: true }, function(err, doc){
 						if(err) throw err;
 						// Pare la callback dell'update non ritorni l'oggetto, 
