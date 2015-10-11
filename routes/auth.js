@@ -15,7 +15,7 @@ router.post('/fb', function(req, res, next) {
 
 	var base = "https://graph.facebook.com/v2.3";
 
-	https.get(base + "/me?fields=picture.type(large),first_name,last_name,gender,id,email&access_token=" + fb_token, function(obj) {
+	https.get(base + "/me?fields=picture.type(large),first_name,last_name,gender,id,user_birthday,email&access_token=" + fb_token, function(obj) {
 		var body = '';
 
 	    obj.on('data', function(chunk) {
@@ -46,6 +46,7 @@ router.post('/fb', function(req, res, next) {
 	                surname : fb_data.last_name,
 	                gender : fb_data.gender,
 	                facebook_id : fb_data.id,
+	                birthdate : fb_data.birthday,
 	                token : token,
 	                updated_at : Date.now()
 	          	}
@@ -62,6 +63,7 @@ router.post('/fb', function(req, res, next) {
 						// Pare la callback dell'update non ritorni l'oggetto, 
 						// quindi lo andiamo a ripescare così
 						users.findOne({ facebook_id : fb_data.id},function(err,doc){
+							doc.age = moment().diff(doc.birthdate, 'years');
 							res.json(doc);
 						});
 				});
