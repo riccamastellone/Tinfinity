@@ -47,7 +47,8 @@ router.post('/fb', function(req, res, next) {
 	                gender : fb_data.gender,
 	                facebook_id : fb_data.id,
 	                token : token,
-	                updated_at : Date.now()
+	                updated_at : Date.now(),
+	                relationships : {}
 	          	}
 
 	          	users.update({ facebook_id : fb_data.id},

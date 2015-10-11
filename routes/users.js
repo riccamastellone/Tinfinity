@@ -77,14 +77,6 @@ router.get('/:id/add', function (req, res, next) {
   var db = req.db;
   var users = db.get('users');
 
-  if(User.hasOwnProperty('relationships') === false) {
-    users.updateById(User._id, { $set : {relationships : {}}}, function (err, doc) {
-        if (err) throw err;
-        // Bisogna usare la promise, altrimenti non fa in tempo ad aggiungere
-        // il campo che il codice dopo prova ad accederci
-    });
-  }
-
   // Nel caso non sia definita alcuna relazione con questo utente
   if(typeof User.relationships[req.params.id] === 'undefined') {
     relationship = {}
