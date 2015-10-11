@@ -85,7 +85,7 @@ router.get('/:id/add', function (req, res, next) {
   // Nel caso non sia definita alcuna relazione con questo utente
   if(typeof User.relationships[req.params.id] === 'undefined') {
     // Inseriamolo nell'utente effettivo
-    users.updateById(User._id, { $set : {relationships[req.params.id] : 'requested'}}, function (err, doc) {
+    users.updateById(User._id, { $set : {'relationships.' + req.params.id  : 'requested'}}, function (err, doc) {
         if (err) throw err;
         res.json({ relationship : 'requested'});
     });
@@ -94,7 +94,7 @@ router.get('/:id/add', function (req, res, next) {
     users.findOne({ _id : req.params.id }, function(err, doc){
       if(err) throw err;
         // Inseriamo la relazione nell'utente richiesto
-        users.updateById(doc._id, { $set : {relationships[User._id.toString()] : 'received'}}, function (err, doc) {
+        users.updateById(doc._id, { $set : {'relationships.' + User._id.toString() : 'received'}}, function (err, doc) {
             if (err) throw err;
         });
 
@@ -127,7 +127,7 @@ router.get('/:id/accept', function (req, res, next) {
 
 
   if(typeof User.relationships[req.params.id] !== 'undefined' && User.relationships[req.params.id] == 'received') {
-    users.updateById(User._id, { $set : { relationships[req.params.id] : 'accepted'}}, function (err, doc) {
+    users.updateById(User._id, { $set : { 'relationships.' + req.params.id : 'accepted'}}, function (err, doc) {
         if (err) throw err;
         res.json({ relationship : 'accepted'});
     });
@@ -136,7 +136,7 @@ router.get('/:id/accept', function (req, res, next) {
     users.findOne({ _id : req.params.id }, function(err, doc){
       if(err) throw err;
         // Inseriamo la relazione nell'utente richiesto
-        users.updateById(doc._id, { $set : {relationships[User._id.toString()] : 'accepted'}}, function (err, doc) {
+        users.updateById(doc._id, { $set : {'relationships.' + User._id.toString() : 'accepted'}}, function (err, doc) {
             if (err) throw err;
         });
     });
