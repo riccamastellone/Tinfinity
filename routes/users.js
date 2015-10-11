@@ -85,6 +85,49 @@ router.get('/:id/add', function (req, res, next) {
     });
   }
 
+  // Nel caso non sia definita alcuna relazione con questo utente
+  if(typeof User.relationships[req.params.id] === 'undefined') {
+    relationship = {}
+    relationship[req.params.id] = 'requested';
+    // Inseriamolo nell'utente effettivo
+    users.updateById(User._id, { $set : {relationships : relationship}}, function (err, doc) {
+        if (err) throw err;
+        res.json({ relationship : 'requested'});
+    });
+
+    // Recuperiamo l'utente richiesto
+    users.findOne({ _id : req.params.id }, function(err, doc){
+      if(err) throw err;
+      if(typeof doc.relationships[User._id.toString()] === 'undefined') {
+        // Inseriamo la relazione nell'utente richiesto
+        relationship = {}
+        relationship[User._id.toString()] = 'received';
+        users.updateById(doc._id, { $set : {relationships : relationship}}, function (err, doc) {
+            if (err) throw err;
+        });
+      }
+
+    });
+
+
+  } else {
+    // Relazione già presente, torniamola
+    res.json({ relationship : User.relationships[req.params.id]});
+  }
+});
+
+
+/*
+ * /api/users/{id}/accept
+ * Accettiamo una richiesta di amicizia dall'utente id
+ * @return { relationship : status }
+ *
+ */
+router.get('/:id/accept', function (req, res, next) {
+  var db = req.db;
+  var users = db.get('users');
+
+
   if(typeof User.relationships[req.params.id] === 'undefined') {
     relationship = {}
     relationship[req.params.id] = 'requested';
