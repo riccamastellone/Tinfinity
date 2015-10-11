@@ -98,14 +98,12 @@ router.get('/:id/add', function (req, res, next) {
     // Recuperiamo l'utente richiesto
     users.findOne({ _id : req.params.id }, function(err, doc){
       if(err) throw err;
-      if(typeof doc.relationships[User._id.toString()] === 'undefined') {
         // Inseriamo la relazione nell'utente richiesto
         relationship = {}
         relationship[User._id.toString()] = 'received';
         users.updateById(doc._id, { $set : {relationships : relationship}}, function (err, doc) {
             if (err) throw err;
         });
-      }
 
     });
 
@@ -131,7 +129,6 @@ router.get('/:id/accept', function (req, res, next) {
   if(typeof User.relationships[req.params.id] === 'undefined') {
     relationship = {}
     relationship[req.params.id] = 'requested';
-    console.log(relationship);
     users.updateById(User._id, { $set : {relationships : relationship}}, function (err, doc) {
         if (err) throw err;
         res.json({ relationship : 'requested'});
