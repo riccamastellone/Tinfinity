@@ -130,7 +130,7 @@ router.get('/:id/accept', function (req, res, next) {
   var users = db.get('users');
 
 
-  if(typeof User.relationships[req.params.id] === 'received') {
+  if(typeof User.relationships[req.params.id] === 'undefined' && User.relationships[req.params.id] == 'received') {
     relationship = {}
     relationship[req.params.id] = 'accepted';
     users.updateById(User._id, { $set : {relationships : relationship}}, function (err, doc) {
