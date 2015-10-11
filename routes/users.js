@@ -87,7 +87,7 @@ router.get('/:id/add', function (req, res, next) {
     relationship = {}
     relationship[req.params.id] = 'requested';
     // Inseriamolo nell'utente effettivo
-    users.updateById(User._id, { $set : {relationships : relationship}}, function (err, doc) {
+    users.updateById(User._id, { $addToSet : {relationships : relationship}}, function (err, doc) {
         if (err) throw err;
         res.json({ relationship : 'requested'});
     });
@@ -98,7 +98,7 @@ router.get('/:id/add', function (req, res, next) {
         // Inseriamo la relazione nell'utente richiesto
         relationship = {}
         relationship[User._id.toString()] = 'received';
-        users.updateById(doc._id, { $set : {relationships : relationship}}, function (err, doc) {
+        users.updateById(doc._id, { $addToSet : {relationships : relationship}}, function (err, doc) {
             if (err) throw err;
         });
 
@@ -133,7 +133,7 @@ router.get('/:id/accept', function (req, res, next) {
   if(typeof User.relationships[req.params.id] !== 'undefined' && User.relationships[req.params.id] == 'received') {
     relationship = {}
     relationship[req.params.id] = 'accepted';
-    users.updateById(User._id, { $set : {relationships : relationship}}, function (err, doc) {
+    users.updateById(User._id, { $addToSet : {relationships : relationship}}, function (err, doc) {
         if (err) throw err;
         res.json({ relationship : 'accepted'});
     });
@@ -144,7 +144,7 @@ router.get('/:id/accept', function (req, res, next) {
         // Inseriamo la relazione nell'utente richiesto
         relationship = {}
         relationship[User._id.toString()] = 'accepted';
-        users.updateById(doc._id, { $set : {relationships : relationship}}, function (err, doc) {
+        users.updateById(doc._id, { $addToSet : {relationships : relationship}}, function (err, doc) {
             if (err) throw err;
         });
     });
