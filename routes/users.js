@@ -99,6 +99,18 @@ router.get('/:id/add', function (req, res, next) {
 
     });
 
+    // Notifica
+    var pushbots = require('pushbots');
+    var Pushbots = new pushbots.api({
+        id:'56179eb117795989018b4567',
+        secret:'8f833dd534760fe2ee4d404c388b3847'
+    });
+    Pushbots.setMessage(User.name + ' sent you a request', '0');
+    Pushbots.sendByAlias(req.params.id);
+    Pushbots.push(function(response){});
+
+    
+
 
   } else {
     // Relazione già presente, torniamola
@@ -118,15 +130,29 @@ router.get('/:id/accept', function (req, res, next) {
   var users = db.get('users');
 
 
-  if(typeof User.relationships[req.params.id] === 'undefined') {
+  if(typeof User.relationships[req.params.id] === 'received') {
     relationship = {}
-    relationship[req.params.id] = 'requested';
+    relationship[req.params.id] = 'accepted';
     users.updateById(User._id, { $set : {relationships : relationship}}, function (err, doc) {
         if (err) throw err;
-        res.json({ relationship : 'requested'});
+        res.json({ relationship : 'accepted'});
     });
+
+    // Recuperiamo l'utente richiesto
+    users.findOne({ _id : req.params.id }, function(err, doc){
+      if(err) throw err;
+        // Inseriamo la relazione nell'utente richiesto
+        relationship = {}
+        relationship[User._id.toString()] = 'accepted';
+        users.updateById(doc._id, { $set : {relationships : relationship}}, function (err, doc) {
+            if (err) throw err;
+        });
+
+    });
+
+
   } else {
-    res.json({ relationship : User.relationships[req.params.id]});
+    res.json('What are you trying to do?');
   }
 });
 
