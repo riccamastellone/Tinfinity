@@ -33,7 +33,7 @@ exports.filterUser = function(doc) {
     	
     	data.surname = doc.surname;
     	
-    	data.age = moment().diff(doc.birthdate, 'years');
+    	data.age = moment().diff(new Date(doc.birthdate), 'years');
 	} 
 
 	return data;
