@@ -145,6 +145,28 @@ Example response
 }
 ```
 
+#### Accept friend request
+```
+GET /api/users/{id}/accept
+```
+Example response
+```
+{
+    "relationship": "accepted"
+}
+```
+
+#### Decline friend request
+```
+GET /api/users/{id}/decline
+```
+Example response
+```
+{
+    "relationship": "decline"
+}
+```
+
 
 ### Chat
 
