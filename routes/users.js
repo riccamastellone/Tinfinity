@@ -163,7 +163,8 @@ router.get('/:id/accept', function (req, res, next) {
  * /api/users/{id}/decline
  * Rifiutiamo una richiesta di amicizia dall'utente id
  * Questo non fa altro che eliminare il record: non c'è alcun limite
- * che impedisca agli utenti di inviare una nuova richiesta
+ * che impedisca agli utenti di inviare una nuova richiesta.
+ * Può essere utilizzato anche per eliminare un'amicizia
  * @return { relationship : status }
  *
  */
@@ -171,7 +172,7 @@ router.get('/:id/decline', function (req, res, next) {
   var db = req.db;
   var users = db.get('users');
   var query = {};
-  
+
   query['relationships.' + req.params.id] = '';
   users.updateById(User._id, { $unset : query }, function (err, doc) {
       if (err) throw err;
@@ -188,11 +189,6 @@ router.get('/:id/decline', function (req, res, next) {
           if (err) throw err;
       });
   });
-
-  // Inviamo notifica push all'utente
-  Pushbots.setMessage(User.name + ' declined your request', '0');
-  Pushbots.sendByAlias(req.params.id);
-  Pushbots.push(function(response){});
 
 });
 
