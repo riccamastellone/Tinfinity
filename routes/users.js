@@ -170,35 +170,30 @@ router.get('/:id/accept', function (req, res, next) {
 router.get('/:id/decline', function (req, res, next) {
   var db = req.db;
   var users = db.get('users');
+  var query = {};
+  
+  query['relationships.' + req.params.id] = '';
+  users.updateById(User._id, { $unset : query }, function (err, doc) {
+      if (err) throw err;
+      res.json({ relationship : ''});
+  });
 
+  // Recuperiamo l'utente richiesto
+  users.findOne({ _id : req.params.id }, function(err, doc){
+    if(err) throw err;
+      // Inseriamo la relazione nell'utente richiesto
+      var query = {};
+      query['relationships.' + User._id.toString()] = '';
+      users.updateById(doc._id, { $unset : query}, function (err, doc) {
+          if (err) throw err;
+      });
+  });
 
-  if(typeof User.relationships[req.params.id] !== 'undefined' && User.relationships[req.params.id] == 'received') {
-    var query = {};
-    query['relationships.' + req.params.id] = '';
-    users.updateById(User._id, { $unset : query }, function (err, doc) {
-        if (err) throw err;
-        res.json({ relationship : ''});
-    });
+  // Inviamo notifica push all'utente
+  Pushbots.setMessage(User.name + ' declined your request', '0');
+  Pushbots.sendByAlias(req.params.id);
+  Pushbots.push(function(response){});
 
-    // Recuperiamo l'utente richiesto
-    users.findOne({ _id : req.params.id }, function(err, doc){
-      if(err) throw err;
-        // Inseriamo la relazione nell'utente richiesto
-        var query = {};
-        query['relationships.' + User._id.toString()] = '';
-        users.updateById(doc._id, { $unset : query}, function (err, doc) {
-            if (err) throw err;
-        });
-    });
-
-    // Inviamo notifica push all'utente
-    Pushbots.setMessage(User.name + ' declined your request', '0');
-    Pushbots.sendByAlias(req.params.id);
-    Pushbots.push(function(response){});
-
-  } else {
-    res.json('What are you trying to do?');
-  }
 });
 
 
