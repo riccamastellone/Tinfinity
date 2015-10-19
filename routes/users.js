@@ -25,6 +25,20 @@ router.get('/me', function (req, res, next) {
 });
 
 /**
+ * /api/users/relationships
+ * Recupero le informazioni relative alle mie relazioni
+ * returns { .. }
+ */
+router.get('/me/relationships', function (req, res, next) {
+  var db = req.db;
+  var users = db.get('users');
+
+  users.findOne({ _id : User._id }, function(err, doc){
+    res.json(doc.relationships);
+  });
+});
+
+/**
  * POST /api/users/me/images
  * Sincronizza le immagini dell'utente app->server
  * returns { .. } Uguale a /me

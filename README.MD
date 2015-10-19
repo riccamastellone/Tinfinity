@@ -91,6 +91,11 @@ Example response
 }
 ```
 
+#### Retrive info about my relationships
+```
+GET /api/users/relationships
+
+
 #### Retrive the list of nearby users
 ```
 POST /api/users
