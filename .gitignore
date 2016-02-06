@@ -31,3 +31,6 @@ pids
 *.seed
 bin/
 node_modules/
+
+# Configuration data
+config.js
