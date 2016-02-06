@@ -25,7 +25,7 @@ router.get('/me', function (req, res, next) {
 });
 
 /**
- * /api/users/relationships
+ * /api/users/me/relationships
  * Recupero le informazioni relative alle mie relazioni
  * returns { .. }
  */
