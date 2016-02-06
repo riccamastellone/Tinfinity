@@ -1,12 +1,12 @@
 
 ## Description
 
-Web server written with NodeJS and ExpressJS to support the iOS Tinfinity application.
+Web server written with Node.js to support the iOS Tinfinity application.
 Please refer to [this repo](https://github.com/Seba0691/Tinfinity) for the client source code.
 
 ## Dependencies
 
-- NodeJS
+- Node.js
 - npm
 - nodemon
 
@@ -31,7 +31,10 @@ Please refer to [this repo](https://github.com/Seba0691/Tinfinity) for the clien
         npm start
 
 
-NOTE: To use MongoDB Geopacital tools, the users position must be set as a 2dindex: db.users.ensureIndex({position:"2d"});
+NOTE: To use MongoDB Geopacital tools, the users position must be set as a 2dindex: 
+```
+db.users.ensureIndex({position:"2d"});
+```
 
 ### Something more about it
 
