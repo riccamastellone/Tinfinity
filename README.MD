@@ -93,10 +93,11 @@ Example response
 
 #### Retrive info about my relationships
 ```
-GET /api/users/relationships
-
+GET /api/users/me/relationships
+```
 
 #### Retrive the list of nearby users
+
 ```
 POST /api/users
 lat=45.484083899999995&lon=9.209276899999999
