@@ -1,11 +1,12 @@
 
 ## Description
 
-Web server, written in NodeJS, for the IOS application Tinfinity.
+Web server written with NodeJS and ExpressJS to support the iOS Tinfinity application.
+Please refer to [this repo](https://github.com/Seba0691/Tinfinity) for the client source code.
 
 ## Dependencies
 
-- nodeJS
+- NodeJS
 - npm
 - nodemon
 
@@ -35,16 +36,17 @@ NOTE: To use MongoDB Geopacital tools, the users position must be set as a 2dind
 ### Something more about it
 
 
-Let's seed the db with at least a couple users
+Let's seed the db with at least a couple of test users
 ```
 db.users.insert({ "name" : "Riccardo", "surname" : "Mastellone", "email" : "riccardo.mastellone@gmail.com", "token" : "thisisatoken" })
 db.users.insert({ "name" : "Giovanni", "surname" : "Palazzo", "email" : "giovanni.palazzo@gmail.com", "token" : "thisisanothertoken" , "latitude" : "45.484083899999995", "longitude" : "9.209376899999999"})
 ```
 # API #
-To make any request, you need to be autheticated. You may do this adding the `X-Api-Token` header in the request with the associated token.
+To make any request, you need to be autheticated. You may do this by adding `X-Api-Token` and the associated token to the HTTP request header.
+For security reasons, the token must be refreshed every time the app logs in.
 
 ### Authentication 
-Just send the Facebook access token and it will return all the information about the Tinfinity user
+Just send the Facebook access token and it will return all the information about the Tinfinity user.
 ```
 POST /api/auth/fb
 token=.....
