@@ -1,11 +1,12 @@
 var custom = require('../custom_modules/custom');
 var express = require('express');
 var router = express.Router();
+
+// Config file
+var config = require('../config');
+
 var pushbots = require('pushbots');
-var Pushbots = new pushbots.api({
-    id:'56179eb117795989018b4567',
-    secret:'8f833dd534760fe2ee4d404c388b3847'
-});
+var Pushbots = new pushbots.api(config.Pushbots);
 
 // Necessario affinche le query funzionino:
 // db.users.ensureIndex({position:"2dsphere"});

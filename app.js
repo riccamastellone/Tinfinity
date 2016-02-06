@@ -15,8 +15,6 @@ app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
 app.use(function(req,res,next){
-    //penso che non vada bene qui questo
-
     // Utilizzo questo sistema per passarmi la variabile db 
     // attraverso tutta l'applicazione. Ci sono anche altri
     // modi, come l'export. Se preferisci cambialo.
@@ -30,7 +28,6 @@ app.use(function(req,res,next){
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -45,8 +42,8 @@ app.get('/', function (req, res, next) {
 var auth = require('./routes/auth');
 app.use('/api/auth', auth);
 // All'interno di api.js vengono gestite *tutte*
-// le chiamate da parte del cliente *tranne*
-// quelle per l'autenticazione
+// le chiamate da parte del cliente *tranne* quelle per 
+// l'autenticazione che altrimenti non sarebbero raggiungibili
 var api = require('./routes/api');
 app.use('/api', api);
 
