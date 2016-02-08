@@ -1,4 +1,6 @@
-![Tinfinity](public/images/logo.png?raw=true)
+# Tinfinity Web Server
+
+![Tinfinity](public/images/logo.png?raw=true  | width=250)
 
 This web server has been developed to support the iOS Tinfinity application.
 Please refer to [this repo](https://github.com/Seba0691/Tinfinity) for the client source code.
