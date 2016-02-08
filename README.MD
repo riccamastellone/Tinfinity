@@ -1,20 +1,19 @@
-<div style="text-align:center"><img src="public/images/logo.png?raw=true" alt="Tinfinity" width="250px"></div>
-
 # Tinfinity Web Server
+<div style="text-align:center"><img src="public/images/logo.png?raw=true" alt="Tinfinity" width="250px"></div>
 This web server has been developed to support the iOS Tinfinity application.
 Please refer to [this repo](https://github.com/Seba0691/Tinfinity) for the client source code.
 
-It is written using Node.js, in particular the [Express](http://expressjs.com) framework and uses MongoDB as a database.
+It is written using Node.js with the [Express](http://expressjs.com) framework and uses MongoDB as a database.
 These have been preferred over many alternatives for performance reasons, as they support a very high number of concurrent connections with very little resources. Additionally, websockets are nativly supported using [SocketIO](http://socket.io/), allowing a real-time, bidirectional and reliable chat system.
 
 ![API Schema](public/images/schema.png?raw=true)
 
 
-The structure of the web server have been developed so to not be tightly coupled with the client architecture (iOS), hence other clients (e.g., Web, Androind) can be easily created from the APIs documentation.
+The structure of the web server has been developed so to not be tightly coupled with the client architecture (iOS), hence other clients (e.g., Web, Android) can be easily created starting from the APIs documentation.
 
 All the security checks are done server-side, not disclosing any unwanted information unless explicitly requested by the user.
 
-MongoDb offers natively Geospatial data type support, and near users are retreived directly querying the database with the user current position.
+MongoDB offers natively Geospatial data type support, and near users are retreived directly querying the database with the user current position.
 
 ## Dependencies
 
@@ -55,7 +54,7 @@ Let's seed the db with at least a couple of test users
 db.users.insert({ "name" : "Riccardo", "surname" : "Mastellone", "email" : "riccardo.mastellone@gmail.com", "token" : "thisisatoken" })
 db.users.insert({ "name" : "Giovanni", "surname" : "Palazzo", "email" : "giovanni.palazzo@gmail.com", "token" : "thisisanothertoken" , "latitude" : "45.484083899999995", "longitude" : "9.209376899999999"})
 ```
-# API #
+## APIs 
 To make any request, you need to be autheticated. You may do this by adding `X-Api-Token` and the associated token to the HTTP request header.
 For security reasons, the token must be refreshed every time the app logs in.
 All the images are base 64 encoded, and when uploading new images, the econding should be done locally.
