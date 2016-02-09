@@ -4,7 +4,7 @@ This web server has been developed to support the iOS Tinfinity application.
 Please refer to [this repo](https://github.com/Seba0691/Tinfinity) for the client source code.
 
 It is written using Node.js with the [Express](http://expressjs.com) framework and uses MongoDB as a database.
-These have been preferred over many alternatives for performance reasons, as they support a very high number of concurrent connections with very little resources. Additionally, websockets are nativly supported using [SocketIO](http://socket.io/), allowing a real-time, bidirectional and reliable chat system.
+These have been preferred over many alternatives for performance reasons, as they support a very high number of concurrent connections with very little resources. Additionally, websockets are natively supported using [SocketIO](http://socket.io/), allowing a real-time, bidirectional and reliable chat system.
 
 ![API Schema](public/images/schema.png?raw=true)
 
@@ -13,7 +13,7 @@ The structure of the web server has been developed so to not be tightly coupled 
 
 All the security checks are done server-side, not disclosing any unwanted information unless explicitly requested by the user.
 
-MongoDB offers natively Geospatial data type support, and near users are retreived directly querying the database with the user current position.
+MongoDB offers natively Geospatial data type support, and near users are retrieved directly querying the database with the user current position.
 
 ## Dependencies
 
